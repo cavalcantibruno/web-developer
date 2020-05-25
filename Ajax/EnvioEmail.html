@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/LayoutPadrao}"
+	  xmlns:epica="http://cjc.jardimdacolina.com.br"
+	  xmlns:data="http://www.thymeleaf.org/extras/data"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<title>Envio de Email</title>
+</head>
+
+<body>
+	<section layout:fragment="conteudo">
+		<div class="cjc-compact-header">
+			<h1 class="cjc-compact-header_title">Envio de e-mail cobrança</h1>
+		</div>
+		
+		
+		<div class="cjc-compact-form">
+			<form method="GET" th:action="@{/envioemail}" class="form-inline" id="myForm">
+				<div class="cjc-compact-form-parametros">
+
+					<div class="bw-required cjc cjc-compact-form_inputs">
+						<label for="vencimento" class="">Data do Vencimento: </label>
+						<input type="text" class="form-control form-control-sm js-date" id="vencimento" data-provide="datapicker" autocomplete="off" name="vencimento" required/>
+					</div>
+											
+					<div class="cjc-compact-form_inputs">
+						<label for="proposta" class="">Proposta: </label>
+						<input type="text" class="form-control form-control-sm" id="proposta" autocomplete="off" name="proposta"/>
+					</div>
+					
+					<div>
+						<button id="js-btnPesquisar" type="submit" class="btn btn-primary">Pesquisar</button>
+					</div>	
+				</div>
+
+					<div th:if="${pagina != 0}">
+						<div class="alert alert-danger" role="alert" th:if="${pagina.totalItem == 0}">Nenhum item encontrado, favor selecionar uma data valida!!</div>
+					</div>
+			</form>
+		</div>
+		
+		<p id="weather-temp"></p>
+
+		<div class="js-tabela" data:url="@{/envioemail/send}">
+			<div class="cjc-before-table-info">
+				<p th:if="${pagina != 0}">
+					<span th:if="${pagina.totalItem != 0}">Qtd. Propostas carregadas: <strong>[[${pagina.totalItem}]]</strong></span>
+				</p>
+				<p th:if="${pagina != 0}">
+					<span th:if="${pagina.totalItem != 0}">Qtd. Propostas selecionadas: <strong id="qtdSelecionada">0</strong></span>
+				</p>
+			</div>
+			<div class="cjc-table-cont" id='table-cont'>
+				<table class="table table-sm">
+	  				<thead>
+	  					<tr>
+							<th>
+								<div>
+									<input type='checkbox' class='js-selecao-todos'/>
+								</div>											
+							</th>
+							<th class="cjc-text-center">Numero da Proposta</th>
+							<th class="cjc-text-center">Cliente</th>
+							<th class="cjc-text-center">Valor</th>
+							<th class="cjc-text-center">Vencimento</th>
+							<th class="cjc-text-center">Email</th>
+							<th class="cjc-text-center">Status</th>					
+						</tr>
+					</thead>
+	
+					<tbody th:if="${pagina != 0}" class="cjc-text-center">
+						<tr th:each="EnvioEmail : ${pagina.conteudo}">
+							<td>
+								<div>
+									<input type="checkbox" class="js-selecao" data:proposta="${EnvioEmail.proposta}"  data:dtvencto= "${EnvioEmail.vencimento}"/>
+								</div>
+							</td>
+							<td th:text="${EnvioEmail.proposta}"></td>
+							<td th:text="${EnvioEmail.cliente}"></td>
+							<td th:text="${EnvioEmail.valor}"></td>
+							<td th:text="${EnvioEmail.vencimento}"></td>
+							<td th:text="${EnvioEmail.email}"></td>										
+						</tr>
+					</tbody>
+				
+				</table>
+				
+			</div>		
+		
+			<div th:if="${pagina != 0}" class="cjc-text-center">
+				<button id="bntEnviar" class="btn btn-primary js-envia-info" th:if="${pagina.totalItem != 0}">Enviar</button>	
+			</div>
+			
+		</div>
+	</section>
+	<th:block layout:fragment="javascript-extra">
+		
+		<script th:src="@{/javascripts/mult-selecao-email.js}"></script>
+		<script>
+		// Code goes here
+		'use strict'
+		window.onload = function(){
+		  var tableCont = document.querySelector('#table-cont')
+		  /**
+		   * scroll handle
+		   * @param {event} e -- scroll event
+		   */
+		  function scrollHandle (e){
+		    var scrollTop = this.scrollTop;
+		    this.querySelector('thead').style.transform = 'translateY(' + scrollTop + 'px)';
+		  }
+		  
+		  tableCont.addEventListener('scroll',scrollHandle)
+		}
+		</script>
+	</th:block>
+</body>
+</html>

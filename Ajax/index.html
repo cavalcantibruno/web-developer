@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="global.css">
+</head>
+<body>
+    <form class="form-inline">
+        Data de Vencimento:
+        <input class="form-control" type="date">
+        Proposta:
+        <input class="form-control inputProposta" type="text">
+        <button id="btnPesquisar" type="submit" class="btn btn-dark">Pesquisar</button>
+        <img class="load-gif js-no" src="carregando.gif" alt="">
+    </form>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th><input type='checkbox' class='js-selecao-todos'/></th>
+                <th>Numero da Proposta</th>
+                <th>Cliente</th>
+                <th>Valor</th>
+                <th>Vencimento</th>
+                <th>Email</th>
+                <th>Status</th>					
+            </tr>
+        </thead>
+
+        <tbody>
+        </tbody>
+    </table>
+    <p>Quantidade Selecionada: <span id="qtdSelecionada"></span></p>
+    <form class="form-inline">
+        Cliente:
+        <input class="form-control cliente" type="text">
+        Valor:
+        <input class="form-control valor" type="text">
+        Vencimento:
+        <input class="form-control vencimento" type="date">
+        Email:
+        <input class="form-control email" type="text">
+
+        <div class="cjc-text-center">
+            <button id="bntEnviar" class="btn btn-dark js-envia-info">Enviar</button>	
+        </div>
+    </form>
+
+    
+    <!-- Scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="./email.js"></script>   
+</body>
+</html>
